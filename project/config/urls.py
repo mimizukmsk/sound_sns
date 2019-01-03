@@ -1,4 +1,4 @@
-"""config URL Configuration
+'''config URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.1/topics/http/urls/
@@ -12,11 +12,17 @@ Class-based views
 Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
+'''
 from django.contrib import admin
 from django.urls import path, include
+from timeline.views import TimelineListView, TimelineDetailView, TimelineCreateView, TimelineUpdateView, TimelineDeleteView
 
 urlpatterns = [
+    path('', TimelineListView.as_view(), name='index'),
+    path('<int:pk>/update', TimelineUpdateView.as_view(), name='update'),
+    path('<int:pk>/delete', TimelineDeleteView.as_view(), name='delete'),
+    path('<int:pk>', TimelineDetailView.as_view(), name='detail'),
+
+    path('create', TimelineCreateView.as_view(), name='create'),
     path('admin/', admin.site.urls),
-    path('timeline/', include('timeline.urls'))
 ]

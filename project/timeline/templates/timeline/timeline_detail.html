@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <div class="post-preview">
+        <h2 class="post-title">
+          {{ post.content }}
+        </h2>
+        <p class="post-meta">{{ post.posted_date }}</p>
+      </div>
+      <a href="{% url 'update' post.pk %}" class="btn btn-primary">編集</a>
+      <a href="{% url 'delete' post.pk %}" class="btn btn-danger">削除</a>
+    </div>
+  </div>
+{% endblock content %}
