@@ -1,5 +1,7 @@
 from django.urls import reverse_lazy
 from django.contrib import messages
+# Mixin : クラスに継承させることで、その機能をクラス内で使用できるようにするもの
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.views.generic import ListView
 from django.views.generic import DetailView
@@ -20,11 +22,16 @@ class TimelineDetailView(DetailView):
     model = Timeline
     context_object_name = 'post'
 
-class TimelineCreateView(CreateView):
+# LoginRequiredMixin は、View のあとの方に継承させるとエラーが起こるのでこの位置に置く(多重継承の問題)
+class TimelineCreateView(LoginRequiredMixin, CreateView):
     model = Timeline
     form_class = TimelineForm
     success_url = reverse_lazy('index')
     template_name = 'timeline/timeline_create_form.html'
+
+    # LoginRequiredMixinを継承した際は必ず設定する変数
+    # 未ログインのユーザーがViewにアクセスした際に、強制的に以下のページにリダイレクトする
+    login_url = '/login'
 
     def form_valid(self, form):
         messages.success(self.request, "保存しました")
@@ -34,10 +41,12 @@ class TimelineCreateView(CreateView):
         messages.error(self.request, "保存に失敗しました")
         return super().form_invalid(form)
 
-class TimelineUpdateView(UpdateView):
+class TimelineUpdateView(LoginRequiredMixin, UpdateView):
     model = Timeline
     form_class = TimelineForm
     template_name = 'timeline/timeline_update_form.html'
+
+    login_url = '/login'
 
     def get_success_url(self):
         post_pk = self.kwargs['pk']
@@ -52,9 +61,11 @@ class TimelineUpdateView(UpdateView):
         messages.error(self.request, "更新できませんでした")
         return super().form_invalid(form)
 
-class TimelineDeleteView(DeleteView):
+class TimelineDeleteView(LoginRequiredMixin, DeleteView):
     model = Timeline
     success_url = reverse_lazy('index')
+
+    login_url = '\login'
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, "削除されました")
