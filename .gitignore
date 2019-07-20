@@ -1,6 +1,8 @@
+.venv/
 .vscode/
-project/node_modules/
 .env
 */**/__pycache__/
-venv/
 pyvenv.cfg
+
+project/node_modules/
+project/media/
