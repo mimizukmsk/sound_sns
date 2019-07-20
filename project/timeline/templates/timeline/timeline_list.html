@@ -11,10 +11,13 @@
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       {% for post in posts %}
         <div class="post-preview">
-          <a href="{% url 'detail' post.pk %}">
+          <a class="stretched-link" href="{% url 'detail' post.pk %}">
             {{ post.content }}
           </a>
           <p class="post-meta">{{ post.posted_date }}</p>
+          {% if post.file %}
+            <a href="{{ post.file.url }}">{{ post.file }}</a>
+          {% endif %}
         </div>
       {% endfor %}
     </div>

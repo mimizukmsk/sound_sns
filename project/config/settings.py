@@ -17,19 +17,6 @@ import environ
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ud1u5mgi8e1k10huu1=&cgy6g^@a$1@h!n-r5mw$g4(3er!)*@'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
-
 # Set Environments
 ENV_DIR = environ.Path(__file__) - 3
 env = environ.Env()
@@ -38,6 +25,19 @@ READ_ENV_FILE = env.bool('DJANGO_READ_ENV_FILE', default=False)
 if READ_ENV_FILE:
     env_file = str(ENV_DIR.path('.env'))
     env.read_env(env_file)
+
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'ud1u5mgi8e1k10huu1=&cgy6g^@a$1@h!n-r5mw$g4(3er!)*@'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = env('DEBUG')
+
+ALLOWED_HOSTS = []
+
 
 # Application definition
 
@@ -88,6 +88,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': env.db()
 }
+
+
+# Media
+
+if DEBUG:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = (
+        os.path.join(BASE_DIR, 'media')
+    )
 
 
 # Password validation
