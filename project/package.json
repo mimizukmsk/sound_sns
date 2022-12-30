@@ -11,6 +11,6 @@
   "dependencies": {
     "node-pre-gyp": "^0.10.0",
     "tone": "^0.12.80",
-    "webpack": "^4.26.0"
+    "webpack": "^5.75.0"
   }
 }
